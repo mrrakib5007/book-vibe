@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Book Vibe
+
+Book Vibe is a modern book discovery and reading-list application built with Next.js. Readers can explore curated books, view detailed book information, organize books they want to read, and keep their reading experience in one focused place.
+
+## Features
+
+- Responsive homepage with a book-focused hero banner.
+- Curated book collection loaded from `public/booksData.json`.
+- Book cards with cover image, title, author, category, rating, and review information.
+- Dedicated books listing page for browsing the full collection.
+- Dynamic book details page for individual books.
+- Pages to Read section for managing reading goals.
+- Listed Books section for organizing saved or listed books.
+- Responsive navigation bar with desktop links and a mobile menu.
+- Reusable footer with navigation, support links, social links, and newsletter signup UI.
+- Responsive layout for mobile, tablet, and desktop screens.
+- Optimized fonts using `next/font` with Roboto and Playfair Display.
+- TypeScript support for shared book data types and application code.
+
+## Pages and Routes
+
+| Route             | Description                                      |
+| ----------------- | ------------------------------------------------ |
+| `/`               | Homepage with banner, featured books, and footer |
+| `/books`          | Browse all available books                       |
+| `/books/[bookId]` | View details for a specific book                 |
+| `/listed-books`   | View listed books                                |
+| `/pages-to-read`  | View books planned for reading                   |
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) 16 with the App Router
+- [React](https://react.dev/) 19
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/) 4
+- [React Icons](https://react-icons.github.io/react-icons/)
+- ESLint for code quality
+
+## Project Structure
+
+```text
+src/
+|-- app/
+|   |-- page.tsx                 # Homepage
+|   |-- books/                   # Book listing and dynamic details pages
+|   |-- listed-books/            # Listed books page
+|   |-- pages-to-read/           # Reading goals page
+|   `-- globals.css              # Global styles and theme variables
+|-- assets/components/
+|   |-- Cards/                   # Book card components
+|   |-- Home/                    # Homepage banner and book sections
+|   `-- shared/                  # Navbar and Footer
+`-- type/                        # Shared TypeScript types
+public/
+`-- booksData.json               # Book catalogue data
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20 or newer recommended
+- npm
+
+### Installation
+
+```bash
+git clone <your-repository-url>
+cd book-vibe
+npm install
+```
+
+### Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev      # Start the development server
+npm run lint     # Run ESLint
+npm run build    # Create a production build
+npm run start    # Start the production server
+```
 
-## Learn More
+## Data Source
 
-To learn more about Next.js, take a look at the following resources:
+Book information is currently stored in [`public/booksData.json`](public/booksData.json). The homepage and books pages read from this local catalogue, so new books can be added by following the existing JSON structure.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Developed by **MrRakib5007**.
