@@ -1,65 +1,82 @@
 # Book Vibe
 
-Book Vibe is a modern book discovery and reading-list application built with Next.js. Readers can explore curated books, view detailed book information, organize books they want to read, and keep their reading experience in one focused place.
+Book Vibe is a modern book discovery and reading-tracker app built with Next.js. It lets readers explore a curated library, view detailed book information, save books to a read list or wishlist, and track reading progress in a clean and responsive interface.
+
+## Overview
+
+This project is designed as a personal bookshelf experience for readers who want to discover books, keep track of what they have read, and plan future reading goals. The app uses a local book catalog and client-side state to manage the reading journey without requiring a backend.
 
 ## Features
 
-- Responsive homepage with a book-focused hero banner.
-- Curated book collection loaded from `public/booksData.json`.
-- Book cards with cover image, title, author, category, rating, and review information.
-- Dedicated books listing page for browsing the full collection.
-- Dynamic book details page for individual books.
-- Pages to Read section for managing reading goals.
-- Listed Books section for organizing saved or listed books.
-- Responsive navigation bar with desktop links and a mobile menu.
-- Reusable footer with navigation, support links, social links, and newsletter signup UI.
-- Responsive layout for mobile, tablet, and desktop screens.
-- Optimized fonts using `next/font` with Roboto and Playfair Display.
-- TypeScript support for shared book data types and application code.
+- Responsive home page with a book-focused hero section and featured books
+- Full catalog browsing page for exploring all available titles
+- Dynamic book detail pages with cover image, author, review, tags, rating, publisher, and page count
+- Read list and wishlist management with duplicate prevention and toast notifications
+- Sortable book lists by rating, page count, or publication year
+- Reading progress visualization using a bar chart on the Pages to Read page
+- Reusable layout components including navbar and footer
+- Loading states and empty-state screens for book collection pages
+- Data-driven design using a local JSON catalog
+- Built with Next.js App Router, TypeScript, and Tailwind CSS
 
 ## Pages and Routes
 
-| Route             | Description                                      |
-| ----------------- | ------------------------------------------------ |
-| `/`               | Homepage with banner, featured books, and footer |
-| `/books`          | Browse all available books                       |
-| `/books/[bookId]` | View details for a specific book                 |
-| `/listed-books`   | View listed books                                |
-| `/pages-to-read`  | View books planned for reading                   |
+| Route           | Description                                                   |
+| --------------- | ------------------------------------------------------------- |
+| /               | Landing page with banner and featured book sections           |
+| /books          | Browse the complete book collection                           |
+| /books/[bookId] | View a specific book's full details                           |
+| /listed-books   | Manage read books and wishlist items in separate tabs         |
+| /pages-to-read  | View a visual reading-progress chart based on collected books |
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org/) 16 with the App Router
-- [React](https://react.dev/) 19
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/) 4
-- [React Icons](https://react-icons.github.io/react-icons/)
-- ESLint for code quality
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- React Icons
+- Recharts
+- React Toastify
+- ESLint
 
 ## Project Structure
 
 ```text
-src/
-|-- app/
-|   |-- page.tsx                 # Homepage
-|   |-- books/                   # Book listing and dynamic details pages
-|   |-- listed-books/            # Listed books page
-|   |-- pages-to-read/           # Reading goals page
-|   `-- globals.css              # Global styles and theme variables
-|-- assets/components/
-|   |-- Cards/                   # Book card components
-|   |-- Home/                    # Homepage banner and book sections
-|   `-- shared/                  # Navbar and Footer
-`-- type/                        # Shared TypeScript types
-public/
-`-- booksData.json               # Book catalogue data
+book-vibe/
+├── public/
+│   └── booksData.json           # Local book catalog
+├── src/
+│   ├── app/
+│   │   ├── books/
+│   │   │   ├── page.tsx         # Browse all books
+│   │   │   └── [bookId]/page.tsx # Book detail page
+│   │   ├── listed-books/page.tsx # Read list + wishlist organizer
+│   │   ├── pages-to-read/page.tsx # Reading progress chart
+│   │   ├── layout.tsx
+│   │   ├── page.tsx            # Homepage
+│   │   └── globals.css
+│   ├── components/
+│   │   ├── Cards/
+│   │   ├── Home/
+│   │   └── shared/
+│   ├── context/
+│   │   └── BooksContext.tsx    # Global read/wishlist state
+│   └── type/
+│       └── bookType.ts         # Book data interface
+├── package.json
+├── next.config.ts
+├── tsconfig.json
+├── eslint.config.mjs
+├── postcss.config.mjs
+└── README.md
 ```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 20 or newer recommended
+- Node.js 20+
 - npm
 
 ### Installation
@@ -70,27 +87,32 @@ cd book-vibe
 npm install
 ```
 
-### Run the Development Server
+### Run the app locally
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open http://localhost:3000 in your browser to view the app.
 
 ## Available Scripts
 
 ```bash
 npm run dev      # Start the development server
-npm run lint     # Run ESLint
-npm run build    # Create a production build
-npm run start    # Start the production server
+npm run build    # Run a production build
+npm run start    # Start the compiled production app
+npm run lint     # Run ESLint checks
 ```
 
 ## Data Source
 
-Book information is currently stored in [`public/booksData.json`](public/booksData.json). The homepage and books pages read from this local catalogue, so new books can be added by following the existing JSON structure.
+Book information is stored in [public/booksData.json](public/booksData.json). The app reads from this file to render the catalog and book details. You can add or edit entries in that JSON file to expand the collection.
+
+## Notes
+
+- The app currently uses local client-side state for managing read books and wishlist items.
+- The project is a front-end reading app and does not include a backend database or authentication flow yet.
 
 ## Author
 
-Developed by **MrRakib5007**.
+Developed by MrRakib5007.

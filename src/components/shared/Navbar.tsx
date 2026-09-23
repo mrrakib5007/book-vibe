@@ -12,6 +12,7 @@ export default function Navbar() {
 
   const navItems = [
     { name: 'Home', path: '/' },
+    { name: 'Books', path: '/books' },
     { name: 'Listed Books', path: '/listed-books' },
     { name: 'Pages to Read', path: '/pages-to-read' },
   ];
