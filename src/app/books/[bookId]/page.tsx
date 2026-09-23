@@ -30,7 +30,7 @@ export default function BookDetailsPage() {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch("/booksData.json");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/booksData.json`);
         const data: IBook[] = await response.json();
         const singleBook = data.find((b) => b.bookId === Number(bookId));
         setBook(singleBook || null);
