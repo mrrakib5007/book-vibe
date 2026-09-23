@@ -36,7 +36,7 @@ const ListedBookCard = ({ book }: { book: IBook }) => {
 
         <div className="w-full flex flex-col">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+            <h2 className="text-playfair text-xl sm:text-2xl font-bold text-gray-900">
               {bookName}
             </h2>
 

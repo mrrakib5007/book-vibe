@@ -1,12 +1,16 @@
+import { Suspense } from "react";
 import Banner from "@/components/Home/Banner";
 import BooksSection from "@/components/Home/BooksSection";
-import Footer from "@/components/shared/Footer";
+import BooksSectionSkeleton from "@/components/Home/BooksSectionSkeleton";
 
 export default function Home() {
   return (
     <div>
       <Banner />
-      <BooksSection />      
+
+      <Suspense fallback={<BooksSectionSkeleton />}>
+        <BooksSection />
+      </Suspense>
     </div>
   );
 }
