@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Playfair_Display, Roboto } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
+import BooksProvider from "@/context/BooksContext";
+import { Slide, ToastContainer } from "react-toastify";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -28,8 +31,24 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${roboto.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar />
-        {children}
+        <BooksProvider>
+          <ToastContainer
+              position="top-right"
+              autoClose={2500}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              transition={Slide}
+              />
+          <Navbar />
+          {children}
+          <Footer />
+        </BooksProvider>
       </body>
     </html>
   );

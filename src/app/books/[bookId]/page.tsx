@@ -1,26 +1,41 @@
-'use client'
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { FaStar } from 'react-icons/fa6';
+"use client";
+import { useParams } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+import Image from "next/image";
+import { FaStar } from "react-icons/fa6";
 import { IBook } from "@/type/bookType";
-import Loading from './loading';
-import { TbBooksOff } from 'react-icons/tb';
+import Loading from "./loading";
+import { TbBooksOff } from "react-icons/tb";
+import { toast } from "react-toastify";
+import { BooksContext } from "@/context/BooksContext";
+
+interface BooksContextType {
+  readBooks: IBook[];
+  setReadBooks: React.Dispatch<React.SetStateAction<IBook[]>>;
+  wishlistBooks: IBook[];
+  setWishlistBooks: React.Dispatch<React.SetStateAction<IBook[]>>;
+}
 
 export default function BookDetailsPage() {
   const { bookId } = useParams();
   const [book, setBook] = useState<IBook | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const { readBooks, setReadBooks, wishlistBooks, setWishlistBooks } =
+    useContext(BooksContext) as BooksContextType;
+  const isAlreadyInReadList = readBooks.some((b) => b.bookId === book?.bookId);
+  const isAlreadyInWishlist = wishlistBooks.some(
+    (b) => b.bookId === book?.bookId,
+  );
 
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch('/booksData.json');
+        const response = await fetch("/booksData.json");
         const data: IBook[] = await response.json();
         const singleBook = data.find((b) => b.bookId === Number(bookId));
         setBook(singleBook || null);
       } catch (error) {
-        console.error('Error fetching book data:', error);
+        console.error("Error fetching book data:", error);
       } finally {
         setLoading(false);
       }
@@ -35,21 +50,48 @@ export default function BookDetailsPage() {
     return <Loading />;
   }
 
-if (!book) {
-  return (
-    <div className="w-full min-h-[60vh] flex flex-col items-center justify-center gap-4 text-center px-4">
-      <div className="p-4 rounded-full bg-slate-100 text-slate-400">
-        <TbBooksOff className="w-16 h-16 sm:w-20 sm:h-20" />
+  if (!book) {
+    return (
+      <div className="w-full min-h-[60vh] flex flex-col items-center justify-center gap-4 text-center px-4">
+        <div className="p-4 rounded-full bg-slate-100 text-slate-400">
+          <TbBooksOff className="w-16 h-16 sm:w-20 sm:h-20" />
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 font-playfair">
+          Book Not Found
+        </h2>
+        <p className="text-slate-500 max-w-sm text-sm sm:text-base">
+          The book you are looking for does not exist or may have been removed.
+        </p>
       </div>
-      <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 font-playfair">
-        Book Not Found
-      </h2>
-      <p className="text-slate-500 max-w-sm text-sm sm:text-base">
-        The book you are looking for does not exist or may have been removed.
-      </p>
-    </div>
-  );
-}
+    );
+  }
+
+  const handleAddToRead = () => {
+    // dupllicate check for read list and dissable button if already in read list
+    const isAlreadyInReadList = readBooks.some((b) => b.bookId === book.bookId);
+    if (isAlreadyInReadList) {
+      toast.error(`"${book.bookName}" is already in your Read list.`);
+      return;
+    }
+    setReadBooks([...readBooks, book]);
+    toast.success(`Added "${book.bookName}" to Read list.`);
+  };
+
+  const handleAddToWishlist = () => {
+    // duplicate check for wishlist and dissable button if already in wishlist
+    const isAlreadyInWishlist = wishlistBooks.some(
+      (b) => b.bookId === book.bookId,
+    );
+    if (isAlreadyInWishlist) {
+      toast.error(`"${book.bookName}" is already in your Wishlist.`);
+      return;
+    }
+    setWishlistBooks([...wishlistBooks, book]);
+    toast.success(`Added "${book.bookName}" to Wishlist.`);
+  };
+
+  console.log("Read Books:", readBooks);
+  console.log("Wishlist Books:", wishlistBooks);
 
   return (
     <main className="w-full bg-white py-8 sm:py-12 lg:py-16">
@@ -74,7 +116,10 @@ if (!book) {
                 {book.bookName}
               </h1>
               <p className="text-base sm:text-lg font-medium text-slate-600 mb-4">
-                By: <span className="text-slate-800 font-semibold">{book.author}</span>
+                By:{" "}
+                <span className="text-slate-800 font-semibold">
+                  {book.author}
+                </span>
               </p>
 
               <div className="border-t border-slate-200 my-4" />
@@ -108,13 +153,19 @@ if (!book) {
 
               <div className="grid grid-cols-2 gap-y-3 max-w-md text-sm sm:text-base">
                 <span className="text-slate-500">Number of Pages:</span>
-                <span className="font-bold text-slate-900">{book.totalPages}</span>
+                <span className="font-bold text-slate-900">
+                  {book.totalPages}
+                </span>
 
                 <span className="text-slate-500">Publisher:</span>
-                <span className="font-bold text-slate-900">{book.publisher}</span>
+                <span className="font-bold text-slate-900">
+                  {book.publisher}
+                </span>
 
                 <span className="text-slate-500">Year of Publishing:</span>
-                <span className="font-bold text-slate-900">{book.yearOfPublishing}</span>
+                <span className="font-bold text-slate-900">
+                  {book.yearOfPublishing}
+                </span>
 
                 <span className="text-slate-500">Rating:</span>
                 <div className="flex items-center gap-1.5 font-bold text-slate-900">
@@ -125,11 +176,29 @@ if (!book) {
             </div>
 
             <div className="flex items-center gap-4 pt-4">
-              <button className="px-6 py-3 rounded-xl border-2 border-slate-900 font-semibold text-slate-900 hover:bg-slate-900 hover:text-white cursor-pointer text-sm sm:text-base transition-all duration-300">
-                Read
+              <button
+                onClick={handleAddToRead}                
+                className={`px-6 py-3 rounded-xl font-semibold transition-opacity shadow-md text-sm sm:text-base cursor-pointer ${
+                  isAlreadyInReadList
+                    ? "bg-gray-300 text-gray-500"
+                    : "bg-(--primary) text-white hover:brightness-90"
+                }`}
+              >
+                {isAlreadyInReadList
+                  ? "Already in Read List"
+                  : "Add to Read List"}
               </button>
-              <button className="px-6 py-3 rounded-xl bg-(--secondary-color) font-semibold text-white hover:brightness-90 transition-opacity cursor-pointer shadow-md text-sm sm:text-base">
-                Wishlist
+              <button
+                onClick={handleAddToWishlist}                
+                className={`px-6 py-3 rounded-xl font-semibold transition-opacity shadow-md text-sm sm:text-base cursor-pointer ${
+                  isAlreadyInWishlist
+                    ? "bg-gray-300 text-gray-500"
+                    : "bg-(--primary) text-white hover:brightness-90"
+                }`}
+              >
+                {isAlreadyInWishlist
+                  ? "Already in Wishlist"
+                  : "Add to Wishlist"}
               </button>
             </div>
           </div>
