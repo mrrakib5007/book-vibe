@@ -19,6 +19,9 @@ This project is designed as a personal bookshelf experience for readers who want
 - Data-driven design using a local JSON catalog
 - Built with Next.js App Router, TypeScript, and Tailwind CSS
 
+**Github Repo:** [https://github.com/mrrakib5007/book-vibe](https://github.com/mrrakib5007/book-vibe)  
+**Live Preview:** [https://book-vibe-dev.vercel.app](https://book-vibe-dev.vercel.app)
+
 ## Pages and Routes
 
 | Route           | Description                                                   |
